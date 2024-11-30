@@ -75,6 +75,8 @@ class Player extends ljs.EngineObject {
         this.passives = [];
         this.attackSpeedMultiplier = 1;
         this.facingRight = true;
+        this.autoAttackTimer = 0;
+        this.autoAttackCooldown = 1; // 1 second cooldown
 
         // Enable collision and physics
         this.setCollision(true, false);
@@ -106,6 +108,14 @@ class Player extends ljs.EngineObject {
         } else {
             this.velocity = new ljs.Vector2(0, 0);
         }
+
+        this.autoAttackTimer -= ljs.timeDelta;
+        if (this.autoAttackTimer <= 0) {
+            this.autoAttack();
+            this.autoAttackTimer = this.autoAttackCooldown;
+        }
+
+
 
         // Update Weapons
         for (let weapon of this.weapons) {
@@ -150,7 +160,7 @@ class Player extends ljs.EngineObject {
         // Create a Projectile in that direction
         let projectile = new Projectile(this.pos.copy(), direction);
     }
-
+    
     takeDamage(amount) {
         this.health -= amount;
         if (this.health <= 0) {
@@ -168,7 +178,7 @@ class Player extends ljs.EngineObject {
 class Projectile extends ljs.EngineObject {
     constructor(pos, direction) {
         super(pos, new ljs.Vector2(0.5, 0.5), null, 0);
-        this.speed = 10;
+        this.speed = 0.2;
         this.direction = direction.normalize();
         this.lifeTime = 2; // Seconds
 
@@ -272,7 +282,7 @@ class Weapon {
     }
 
     update() {
-        this.cooldownTimer -= timeDelta;
+        this.cooldownTimer -= ljs.timeDelta;
         if (this.cooldownTimer <= 0) {
             this.attack();
             this.cooldownTimer = this.cooldown / this.player.attackSpeedMultiplier;
@@ -300,7 +310,7 @@ class VineWhip extends Weapon {
 
     attack() {
         // Attack horizontally in front of the player
-        let direction = new Vector2(this.player.facingRight ? 1 : -1, 0);
+        let direction = new ljs.Vector2(this.player.facingRight ? 1 : -1, 0);
         let position = this.player.pos.copy().add(direction.scale(this.player.size.x / 2));
         let whip = new WhipAttack(position, direction, this.damage);
     }
@@ -314,7 +324,7 @@ class VineWhip extends Weapon {
 
 class WhipAttack extends ljs.EngineObject {
     constructor(pos, direction, damage) {
-        super(pos, new Vector2(2, 0.5), null, 0);
+        super(pos, new ljs.Vector2(5, 0.5), null, 0);
         this.direction = direction;
         this.damage = damage;
         this.lifeTime = 0.2; // Short duration
@@ -324,7 +334,7 @@ class WhipAttack extends ljs.EngineObject {
 
     update() {
         super.update();
-        this.lifeTime -= timeDelta;
+        this.lifeTime -= ljs.timeDelta;
         if (this.lifeTime <= 0) {
             this.destroy();
             return;
@@ -340,7 +350,7 @@ class WhipAttack extends ljs.EngineObject {
     }
 
     render() {
-        drawRect(this.pos, this.size, new Color(0.5, 1, 0.5, 1));
+        ljs.drawRect(this.pos, this.size, new ljs.Color(0.5, 1, 0.5, 1));
     }
 }
 
@@ -349,7 +359,7 @@ class CoconutCannon extends Weapon {
         super(player);
         this.cooldown = 2; // Adjust as needed
         this.damage = 15;
-        this.projectileSpeed = 5;
+        this.projectileSpeed = 2;
         this.name = 'Coconut Cannon';
     }
 
@@ -385,7 +395,7 @@ class CoconutCannon extends Weapon {
 
 class CoconutProjectile extends ljs.EngineObject {
     constructor(pos, direction, damage, speed) {
-        super(pos, new Vector2(0.5, 0.5), null, 0);
+        super(pos, new ljs.Vector2(1, 1), null, 0);
         this.direction = direction;
         this.damage = damage;
         this.speed = speed;
@@ -411,7 +421,7 @@ class CoconutProjectile extends ljs.EngineObject {
     }
 
     render() {
-        drawRect(this.pos, this.size, new Color(0.6, 0.3, 0, 1));
+        ljs.drawRect(this.pos, this.size, new ljs.Color(0.6, 0.3, 0, 1));
     }
 }
 
