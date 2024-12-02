@@ -3,8 +3,7 @@
 import * as ljs from "littlejsengine";
 import MovementSpeedBoost from "./passives/movementSpeedBoost.js";
 import Projectile from "./projectile.js";
-import CoconutCannon from "./weapons/coconutCannon.js";
-import VineWhip from "./weapons/vineWhip.js";
+import FungusSpores from "./weapons/fungusSpores.js";
 // Player Class
 export default class Player extends ljs.EngineObject {
     constructor(pos, enemies, projectiles) {
@@ -98,9 +97,9 @@ export default class Player extends ljs.EngineObject {
         // Calculate direction from player to mouse
         let direction = mousePosWorld.subtract(this.pos).normalize();
     
-        console.log('Mouse Position:', mousePosWorld.toString());
-        console.log('Player Position:', this.pos.toString());
-        console.log('Direction:', direction.toString());
+        //console.log('Mouse Position:', mousePosWorld.toString());
+       // console.log('Player Position:', this.pos.toString());
+        //console.log('Direction:', direction.toString());
     
     
         // Create a Projectile in that direction
@@ -129,11 +128,11 @@ export default class Player extends ljs.EngineObject {
     // In openLevelUpMenu(), you could add:
     openLevelUpMenu() {
         // Example: Randomly choose between weapon and passive
-        let options = ['weapon', 'passive', 'weapon', 'weapon'];
+        let options = ['weapon', 'weapon', 'weapon'];
         let choice = options[Math.floor(Math.random() * options.length)];
         if (choice === 'weapon') {
             // Add or upgrade weapon as before
-            let weaponClasses = [VineWhip, CoconutCannon];
+            let weaponClasses = [FungusSpores];
             let randomWeaponClass = weaponClasses[Math.floor(Math.random() * weaponClasses.length)];
             this.addWeapon(randomWeaponClass);
         } else {
