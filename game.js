@@ -136,6 +136,23 @@ function gameRenderPost() {
         );
         weaponYPosition += 30; // Move down for the next weapon
     }
+
+    // Display Passives List
+    let passiveYPosition = 110; // Starting Y position for the weapons list
+    ljs.drawTextScreen(`Passives:`, new ljs.Vector2(150, passiveYPosition), 20, new ljs.Color(1, 1, 0, 1));
+    passiveYPosition += 30; // Move down for the first weapon
+
+    // Loop through player's weapons and display them
+    for (let passive of player.passives) {
+        ljs.drawTextScreen(
+            `${passive.name} (Level ${passive.level})`,
+            new ljs.Vector2(150, passiveYPosition),
+            20,
+            new ljs.Color(1, 1, 1, 1)
+        );
+        passiveYPosition += 30; // Move down for the next weapon
+    }
+
 }
 
 // Initialize the Engine

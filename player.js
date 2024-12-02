@@ -2,8 +2,21 @@
 
 import * as ljs from "littlejsengine";
 import MovementSpeedBoost from "./passives/movementSpeedBoost.js";
+import AttackSpeedBoost from "./passives/attackSpeedBoost.js";
+import MaxHealthBoost from "./passives/maxHealthBoost.js";
 import Projectile from "./projectile.js";
+
+import AntSwarm from "./weapons/antSwarm.js";
+import BambooStaff from "./weapons/bambooStaff.js";
+import BananaBazooka from "./weapons/bananaBazooka.js";
+import BoulderRoll from "./weapons/boulderRoll.js";
+import CoconutCannon from "./weapons/coconutCannon.js";
 import FungusSpores from "./weapons/fungusSpores.js";
+import HornetSwarm from "./weapons/hornetSwarm.js";
+import RottenWatermelon from "./weapons/rottenWatermelon.js";
+import ToxicFur from "./weapons/toxicFur.js";
+import VineWhip from "./weapons/vineWhip.js";
+
 // Player Class
 export default class Player extends ljs.EngineObject {
     constructor(pos, enemies, projectiles) {
@@ -13,7 +26,6 @@ export default class Player extends ljs.EngineObject {
         this.maxHealth = 100;
         this.weapons = [];
         this.passives = [];
-        this.attackSpeedMultiplier = 1;
         this.facingRight = true;
         this.autoAttackTimer = 0;
         this.autoAttackCooldown = 1; // 1 second cooldown
@@ -90,6 +102,18 @@ export default class Player extends ljs.EngineObject {
         }
     }
 
+    addPassive(passive) {
+        // Check if weapon already exists
+        let existingPassive = this.passives.find(passive => passive instanceof Passive);
+        if (existingPassive) {
+            existingPassive.levelUp();
+        } else {
+            // Add new weapon
+            let newPassive = new passive(this);
+            this.passives.push(newPassive);
+        }
+    }
+
     autoAttack() {
         // Get the mouse position in world coordinates
         let mousePosWorld = ljs.mousePos;
@@ -132,14 +156,14 @@ export default class Player extends ljs.EngineObject {
         let choice = options[Math.floor(Math.random() * options.length)];
         if (choice === 'weapon') {
             // Add or upgrade weapon as before
-            let weaponClasses = [FungusSpores];
+            let weaponClasses = [AntSwarm, BambooStaff, BananaBazooka, BoulderRoll, CoconutCannon, FungusSpores, HornetSwarm, RottenWatermelon, ToxicFur, VineWhip];
             let randomWeaponClass = weaponClasses[Math.floor(Math.random() * weaponClasses.length)];
             this.addWeapon(randomWeaponClass);
         } else {
             // Add passive ability
-            let passive = new MovementSpeedBoost(this);
-            passive.apply();
-            this.passives.push(passive);
+            let passives = [MaxHealthBoost, AttackSpeedBoost, MovementSpeedBoost];
+            let passive = passives[Math.floor(Math.random() * passives.length)];
+            this.addPassive(passive);
         }
     }
 
