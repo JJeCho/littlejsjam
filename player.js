@@ -1,9 +1,9 @@
 'use strict';
 
 import * as ljs from "littlejsengine";
-import MovementSpeedBoost from "./passives/movementSpeedBoost.js";
 import AttackSpeedBoost from "./passives/attackSpeedBoost.js";
 import MaxHealthBoost from "./passives/maxHealthBoost.js";
+import MovementSpeedBoost from "./passives/movementSpeedBoost.js";
 import Projectile from "./projectile.js";
 
 import AntSwarm from "./weapons/antSwarm.js";
@@ -34,6 +34,7 @@ export default class Player extends ljs.EngineObject {
         this.experience = 0;
         this.experienceToLevelUp = 100;
         this.level=1;
+        this.attackSpeedMultiplier = 1;
 
         // Enable collision and physics
         this.setCollision(true, false);
