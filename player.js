@@ -281,7 +281,7 @@ export default class Player extends ljs.EngineObject {
             existingPassive.levelUp();
         } else {
             // Add new weapon
-            let newPassive = new passive(this);
+            let newPassive = new passiveClass(this);
             this.passives.push(newPassive);
         }
     }
