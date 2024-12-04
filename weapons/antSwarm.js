@@ -6,7 +6,7 @@ export default class AntSwarm extends Weapon {
         super(player, enemies);
         this.name = 'Ant Swarm';
         this.damage = 10;
-        this.orbitalCount = 1; // Start with one orbital
+        this.orbitalCount = 1;
         this.orbitals = [];
 
         // Create initial orbitals

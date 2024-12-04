@@ -40,7 +40,7 @@ export default class Ants extends ljs.EngineObject {
         ljs.drawTile(
             this.pos,
             this.size,
-            new ljs.TileInfo(new ljs.Vector2(0, 0), new ljs.Vector2(16, 16), 0), // Adjust tile info as needed
+            0,
             new ljs.Color(1, 1, 1, 1),
             this.currentAngle,
             false

@@ -4,6 +4,7 @@ export default class MovementSpeedBoost extends Passive {
         super(player);
         this.level = 1;
         this.speedIncrease = 0.2*this.level;
+        this.name = 'Movement Speed Boost';
     }
 
     apply() {

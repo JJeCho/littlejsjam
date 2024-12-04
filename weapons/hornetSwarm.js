@@ -5,11 +5,11 @@ export default class HornetSwarm extends Weapon {
     constructor(player, enemies) {
         super(player, enemies);
         this.cooldown = 1; // Adjust as needed
-        this.damage = 5;
+        this.damage = 1;
         this.projectileSpeed = 1;
         this.name = 'Hornet Swarm';
         this.enemies = enemies;
-        this.hornetCount = 3; // Number of hornets per attack
+        this.hornetCount = 3;
     }
 
     attack() {
